@@ -31,9 +31,9 @@ public class Track extends Media {
     public String toString() {
         // TODO: Return string with title, artist, genre, rating
         return "Title: \"" + getTitle() + "\"" +
-                "\nArtist: " + artist +
-                "\nGenre: " + genre +
-                "\nRating: " + rating + "/5";
+                "\nArtist: " + getArtist() +
+                "\nGenre: " + getGenre() +
+                "\nRating: " + getRating() + "/5";
 
     }
 }
