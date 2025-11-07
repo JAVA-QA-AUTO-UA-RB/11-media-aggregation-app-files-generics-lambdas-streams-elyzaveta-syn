@@ -30,6 +30,10 @@ public class Track extends Media {
     @Override
     public String toString() {
         // TODO: Return string with title, artist, genre, rating
-        return super.toString();
+        return "Title: \"" + getTitle() + "\"" +
+                "\nArtist: " + artist +
+                "\nGenre: " + genre +
+                "\nRating: " + rating + "/5";
+
     }
 }
