@@ -5,6 +5,11 @@ import com.example.media.classes.Track;
 import com.example.media.classes.Video;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 /**
  * Клас-утиліта для запису статистики у вихідні файли.
@@ -48,10 +53,39 @@ public class MediaStatisticsWriter {
         // TODO: Реалізуйте цей метод
         // Підказки:
         // - Використайте playlist.getItems().size() для підрахунку кількості
+        List<Track> tracks = new ArrayList<>();
+        playlist.getItems();
+        int totalTracks = tracks.size();
+
         // - Використайте stream().mapToInt(Track::getDuration).average() для середньої тривалості
+        OptionalDouble averageDuration = tracks.stream()
+                .mapToInt(Track::getDuration)
+                .average();
+
         // - Використайте stream().sorted(...).limit(3) для топ-3 за рейтингом
+        List<Track> topTracks = tracks.stream()
+                .sorted((T1, T2) -> Integer.compare(T2.getRating(), T1.getRating()))
+                .limit(3)
+                .collect(Collectors.toList());
+
         // - Використайте stream().filter(t -> t.getGenre().equalsIgnoreCase("Pop")) для відбору Pop-треків
+        List<Track> popTracks = tracks.stream()
+                .filter(t -> t.getGenre().equalsIgnoreCase("Pop"))
+                .collect(Collectors.toList());
+
         // - Запишіть результати у файл через PrintWriter або Files.write()
+        try (PrintWriter writer = new PrintWriter(filename)) {
+            writer.println("Tracks count: " + totalTracks);
+            writer.printf("\nAverage duration: " + averageDuration + " seconds");
+            writer.println("\nTop 3 tracks by rating: \n" + topTracks);
+            for (Track t : topTracks) {
+                writer.println("– " + t);
+            }
+            writer.println("\nPop tracks: \n" + popTracks);
+            for (Track t : popTracks) {
+                writer.println("– " + t);
+            }
+        }
     }
 
     /**
