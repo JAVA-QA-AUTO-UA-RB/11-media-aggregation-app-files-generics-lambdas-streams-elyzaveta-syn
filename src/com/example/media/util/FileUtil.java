@@ -54,19 +54,27 @@ public class FileUtil {
      */
     public static List<Track> readTracks(String filename) throws IOException {
         List<Track> tracks = new ArrayList<>();
+
         // TODO: зчитати рядки з файлу
         // TODO: пропустити перший рядок (headers)
-            try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-                reader.readLine();
-                // TODO: для кожного рядка розбити його на частини (split(";"))
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] lines = line.split(";");
-                }
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            reader.readLine();
+
+            // TODO: для кожного рядка розбити його на частини (split(";"))
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] lineParts = line.split(";");
+
+                String title = lineParts[0];
+                String artist = lineParts[1];
+                String genre = lineParts[2];
+                int duration = Integer.parseInt(lineParts[3]);
+                int rating = Integer.parseInt(lineParts[4]);
+
                 // TODO: створити новий Track(...) і додати у список
                 tracks.add(new Track(title, artist, genre, duration, rating));
             }
-
+        }
         return tracks;
     }
 
@@ -95,10 +103,27 @@ public class FileUtil {
      */
     public static List<Video> readVideos(String filename) throws IOException {
         List<Video> videos = new ArrayList<>();
+
         // TODO: зчитати рядки з файлу
         // TODO: пропустити перший рядок (headers)
-        // TODO: для кожного рядка розбити його на частини (split(";"))
-        // TODO: створити новий Video(...) і додати у список
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            reader.readLine();
+
+            // TODO: для кожного рядка розбити його на частини (split(";"))
+            String videoLine;
+            while ((videoLine = reader.readLine()) != null) {
+                String[] videoLineParts = videoLine.split(";");
+
+                String title = videoLineParts[0];
+                String channel = videoLineParts[1];
+                String category = videoLineParts[2];
+                int duration = Integer.parseInt(videoLineParts[3]);
+                int views = Integer.parseInt(videoLineParts[4]);
+
+                // TODO: створити новий Video(...) і додати у список
+                videos.add(new Video(title, channel, category, duration, views));
+            }
+        }
         return videos;
     }
 }
