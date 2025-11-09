@@ -64,13 +64,13 @@ public class MediaStatisticsWriter {
 
         // - Використайте stream().sorted(...).limit(3) для топ-3 за рейтингом
         List<Track> topTracks = tracks.stream()
-                .sorted((T1, T2) -> Integer.compare(T2.getRating(), T1.getRating()))
+                .sorted((track1, track2) -> Integer.compare(track2.getRating(), track1.getRating()))
                 .limit(3)
                 .collect(Collectors.toList());
 
         // - Використайте stream().filter(t -> t.getGenre().equalsIgnoreCase("Pop")) для відбору Pop-треків
         List<Track> popTracks = tracks.stream()
-                .filter(t -> t.getGenre().equalsIgnoreCase("Pop"))
+                .filter(track -> track.getGenre().equalsIgnoreCase("Pop"))
                 .collect(Collectors.toList());
 
         // - Запишіть результати у файл через PrintWriter або Files.write()
@@ -116,9 +116,38 @@ public class MediaStatisticsWriter {
         // TODO: Реалізуйте цей метод
         // Підказки:
         // - Використайте playlist.getItems().size() для підрахунку кількості
+        List<Video> videos = new ArrayList<>();
+        playlist.getItems();
+        int totalVideos = videos.size();
+
         // - Використайте stream().mapToInt(Video::getDuration).average() для середньої тривалості
+        OptionalDouble averageDuration = videos.stream()
+                .mapToInt(Video::getDuration)
+                .average();
+
         // - Використайте stream().sorted(...).limit(3) для топ-3 за views
+        List<Video> topVideos = videos.stream()
+                .sorted((video1, video2) -> Integer.compare(video2.getViews(), video1.getViews()))
+                .limit(3)
+                .collect(Collectors.toList());
+
         // - Використайте stream().filter(v -> v.getCategory().equalsIgnoreCase("Education")) для Education-відео
+        List<Video> educationVideos = videos.stream()
+                .filter(video -> video.getCategory().equalsIgnoreCase("Education"))
+                .collect(Collectors.toList());
+
         // - Запишіть результати у файл через PrintWriter або Files.write()
+        try (PrintWriter writer = new PrintWriter(filename)) {
+            writer.println("Videos count: " + totalVideos);
+            writer.printf("\nAverage duration: " + averageDuration + " seconds");
+            writer.println("\nTop 3 video by views: \n" + topVideos);
+            for (Video v : topVideos) {
+                writer.println("– " + v);
+            }
+            writer.println("\nEducation videos: \n" + educationVideos);
+            for (Video v : educationVideos) {
+                writer.println("– " + v);
+            }
+        }
     }
 }
