@@ -1,4 +1,7 @@
 # IntelliJ IDEA
+tracks_output.txt
+videos_output.txt
+
 .idea/
 *.iml
 *.iws
