@@ -30,6 +30,9 @@ public class Video extends Media {
     @Override
     public String toString() {
         // TODO: Return string with title, channel, category, views
-        return super.toString();
+        return "Title: \"" + getTitle() + "\"" +
+                "\nChannel: " + getChannel() +
+                "\nCategory: " + getCategory() +
+                "\nViews: " + getViews();
     }
 }

@@ -19,11 +19,17 @@ public class Playlist<T extends Media> {
 
     // TODO: Implement method to calculate total duration
     public int getTotalDuration() {
-        return 0; // TODO
+        int totalDuration = 0;
+        for (T item : items) {
+            totalDuration += item.getDuration();
+        }
+        return totalDuration; // TODO
     }
 
     // TODO: Implement method to print all items
     public void printAll() {
-        // TODO
+        for (T item : items) {
+            System.out.println(item);
+        } // TODO
     }
 }

@@ -5,6 +5,10 @@ import com.example.media.classes.Track;
 import com.example.media.classes.Video;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 /**
  * Клас-утиліта для запису статистики у вихідні файли.
@@ -48,10 +52,39 @@ public class MediaStatisticsWriter {
         // TODO: Реалізуйте цей метод
         // Підказки:
         // - Використайте playlist.getItems().size() для підрахунку кількості
+        List<Track> tracks = playlist.getItems();
+        int totalTracks = tracks.size();
+
         // - Використайте stream().mapToInt(Track::getDuration).average() для середньої тривалості
+        OptionalDouble averageDuration = tracks.stream()
+                .mapToInt(Track::getDuration)
+                .average();
+
         // - Використайте stream().sorted(...).limit(3) для топ-3 за рейтингом
+        List<Track> topTracks = tracks.stream()
+                .sorted((track1, track2) -> Integer.compare(track2.getRating(), track1.getRating()))
+                .limit(3)
+                .collect(Collectors.toList());
+
         // - Використайте stream().filter(t -> t.getGenre().equalsIgnoreCase("Pop")) для відбору Pop-треків
+        List<Track> popTracks = tracks.stream()
+                .filter(track -> track.getGenre().equalsIgnoreCase("Pop"))
+                .collect(Collectors.toList());
+
         // - Запишіть результати у файл через PrintWriter або Files.write()
+        try (PrintWriter writer = new PrintWriter(filename)) {
+            writer.println("Tracks count: " + totalTracks);
+            writer.printf("Average duration: " + averageDuration.getAsDouble() + " seconds\n");
+            writer.println("\nTop 3 tracks by rating:");
+            for (int i = 0; i < 3; i++) {
+                Track track = topTracks.get(i);
+                writer.print(i+1 + ". " + track.getTitle() + " (rating: " + track.getRating() + ") " + "\n");
+            }
+            writer.println("\nPop tracks:");
+            for (Track track : popTracks) {
+                writer.println("– " + track.getTitle());
+            }
+        }
     }
 
     /**
@@ -82,9 +115,38 @@ public class MediaStatisticsWriter {
         // TODO: Реалізуйте цей метод
         // Підказки:
         // - Використайте playlist.getItems().size() для підрахунку кількості
+        List<Video> videos = playlist.getItems();
+        int totalVideos = videos.size();
+
         // - Використайте stream().mapToInt(Video::getDuration).average() для середньої тривалості
+        OptionalDouble averageDuration = videos.stream()
+                .mapToInt(Video::getDuration)
+                .average();
+
         // - Використайте stream().sorted(...).limit(3) для топ-3 за views
+        List<Video> topVideos = videos.stream()
+                .sorted((video1, video2) -> Integer.compare(video2.getViews(), video1.getViews()))
+                .limit(3)
+                .collect(Collectors.toList());
+
         // - Використайте stream().filter(v -> v.getCategory().equalsIgnoreCase("Education")) для Education-відео
+        List<Video> educationVideos = videos.stream()
+                .filter(video -> video.getCategory().equalsIgnoreCase("Education"))
+                .collect(Collectors.toList());
+
         // - Запишіть результати у файл через PrintWriter або Files.write()
+        try (PrintWriter writer = new PrintWriter(filename)) {
+            writer.println("Videos count: " + totalVideos);
+            writer.printf("Average duration: " + averageDuration.getAsDouble() + " seconds\n");
+            writer.println("\nTop 3 video by views:");
+            for (int i = 0; i < 3; i++) {
+                Video video = topVideos.get(i);
+                writer.print(i+1 + ". " + video.getTitle() + " (" + video.getViews() + " views) " + "\n");
+            }
+            writer.println("\nEducation videos:");
+            for (Video video : educationVideos) {
+                writer.println("– " + video.getTitle());
+            }
+        }
     }
 }

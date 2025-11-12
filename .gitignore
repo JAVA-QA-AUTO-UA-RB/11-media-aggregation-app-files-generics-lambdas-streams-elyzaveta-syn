@@ -1,0 +1,39 @@
+# IntelliJ IDEA
+tracks_output.txt
+videos_output.txt
+
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+target/
+
+# Compiled files
+*.class
+
+# Log files
+*.log
+
+# Package files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Maven
+target/
+
+# Gradle
+.gradle/
+build/
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
+
